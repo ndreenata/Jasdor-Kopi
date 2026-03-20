@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nata Coffee - Jasdor Kopi Fore Coffee & Kopi Kenangan diskon 50%!">
+  <meta property="og:title" content="Nata Coffee — Ngopi Sultan, Harga Teman">
+  <meta property="og:description" content="Order Fore Coffee & Kopi Kenangan hemat sampai 50%!">
+  <meta property="og:image" content="images/nata-logo.png">
+  <title>Nata Coffee — Ngopi Sultan, Harga Teman</title>
+  <link rel="stylesheet" href="style.css?v=20260210e">
+  <link rel="icon" href="images/nata-logo.png">
+  <link rel="manifest" href="manifest.json">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       1. PRELOADER
+       ============================================================ */
+    .preloader{position:fixed;inset:0;z-index:99999;background:#1A2E1F;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease,visibility .6s ease;}
+    .preloader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+    .preloader-icon{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;animation:preBounce 1s ease infinite;margin-bottom:20px;}
+    .preloader-icon img{width:36px;height:36px;border-radius:8px;}
+    .preloader-text{color:rgba(255,255,255,0.6);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:600;letter-spacing:0.05em;}
+    .preloader-text span{display:inline-block;animation:dotPulse 1.4s ease infinite;}
+    .preloader-text span:nth-child(2){animation-delay:.2s;}
+    .preloader-text span:nth-child(3){animation-delay:.4s;}
+    @keyframes preBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+    @keyframes dotPulse{0%,80%,100%{opacity:.3;}40%{opacity:1;}}
+
+    /* ============================================================
+       3. MESH GRADIENT BACKGROUND (Animated Blobs)
+       ============================================================ */
+    .bg-mesh{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden;}
+    .mesh-blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.2;will-change:transform;}
+    .mesh-blob:nth-child(1){width:600px;height:600px;background:#2D4F38;top:-15%;left:-10%;animation:meshDrift1 20s ease-in-out infinite alternate;}
+    .mesh-blob:nth-child(2){width:500px;height:500px;background:#A3BE8C;bottom:-10%;right:-12%;animation:meshDrift2 24s ease-in-out infinite alternate;}
+    .mesh-blob:nth-child(3){width:450px;height:450px;background:#D4A574;top:35%;left:40%;animation:meshDrift3 18s ease-in-out infinite alternate;}
+    .mesh-blob:nth-child(4){width:380px;height:380px;background:#7BC754;bottom:20%;left:10%;animation:meshDrift4 22s ease-in-out infinite alternate;}
+    [data-theme="dark"] .mesh-blob{opacity:0.08;}
+    @keyframes meshDrift1{0%{transform:translate(0,0) scale(1);}100%{transform:translate(60px,40px) scale(1.15);}}
+    @keyframes meshDrift2{0%{transform:translate(0,0) scale(1);}100%{transform:translate(-50px,-30px) scale(1.1);}}
+    @keyframes meshDrift3{0%{transform:translate(0,0) scale(1);}100%{transform:translate(40px,-50px) scale(0.9);}}
+    @keyframes meshDrift4{0%{transform:translate(0,0) scale(1);}100%{transform:translate(-30px,45px) scale(1.12);}}
+
+    /* Grid Pattern Overlay */
+    .grid-overlay{position:fixed;inset:0;z-index:-2;pointer-events:none;
+      background-image:linear-gradient(rgba(45,79,56,0.045) 1px,transparent 1px),linear-gradient(90deg,rgba(45,79,56,0.045) 1px,transparent 1px);
+      background-size:52px 52px;}
+    [data-theme="dark"] .grid-overlay{background-image:linear-gradient(rgba(163,190,140,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(163,190,140,0.05) 1px,transparent 1px);}
+
+    /* Noise Texture Overlay */
+    .noise-overlay{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.04;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat:repeat;background-size:128px 128px;mix-blend-mode:multiply;}
+    [data-theme="dark"] .noise-overlay{opacity:0.06;mix-blend-mode:screen;}
+
+    /* ============================================================
+       4. HERO SECTION
+       ============================================================ */
+    .hero-home{padding:120px 0 20px;text-align:center;position:relative;}
+    .hero-home .container{max-width:680px;}
+    .greeting-text{font-size:0.9rem;color:var(--text-muted);margin-bottom:var(--space-sm);display:flex;align-items:center;justify-content:center;gap:6px;animation:fadeInUp .5s ease both;}
+    .greeting-text i{font-size:1.1rem;color:var(--primary);}
+
+    /* Total Hemat — Floating Glass Badge */
+    .hemat-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(26,26,26,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#7BC754;padding:8px 20px;border-radius:var(--radius-full);font-size:0.82rem;font-weight:700;margin-bottom:var(--space-lg);border:1px solid rgba(123,199,84,0.15);animation:fadeInUp .5s ease .05s both;letter-spacing:-0.01em;}
+    .hemat-badge i{font-size:16px;}
+    .hemat-badge .hemat-num{font-weight:800;font-size:0.95rem;color:#7BC754;}
+    [data-theme="dark"] .hemat-badge{background:rgba(0,0,0,0.6);border-color:rgba(123,199,84,0.2);}
+
+    .hero-home h1{font-size:clamp(2.4rem,7vw,3.8rem);font-weight:800;line-height:1.05;letter-spacing:-0.03em;color:var(--text-primary);margin-bottom:var(--space-md);animation:fadeInUp .6s ease .1s both;font-family:'Plus Jakarta Sans',var(--font),sans-serif;}
+    .hero-home h1 em{font-style:normal;color:var(--primary);position:relative;}
+    .hero-home h1 em::after{content:'';position:absolute;left:0;bottom:2px;width:100%;height:8px;background:var(--accent);border-radius:4px;opacity:0.3;z-index:-1;}
+    .hero-sub{font-size:1.05rem;color:var(--text-secondary);line-height:1.7;margin-bottom:var(--space-lg);animation:fadeInUp .6s ease .2s both;}
+
+    /* Flash Sale Countdown — Retro Digital */
+    .flash-countdown{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--gray-100);padding:10px 20px;border-radius:var(--radius-lg);margin-bottom:var(--space-xl);animation:fadeInUp .6s ease .25s both;}
+    [data-theme="dark"] .flash-countdown{background:rgba(26,46,31,0.6);border-color:rgba(255,255,255,0.06);}
+    .flash-label{font-size:0.78rem;color:var(--text-muted);font-weight:600;display:flex;align-items:center;gap:4px;}
+    .flash-label i{color:#EF4444;font-size:14px;}
+    .flash-digits{display:flex;gap:4px;}
+    .flash-box{background:var(--text-primary);color:var(--bg-primary);font-family:'Courier New',monospace;font-size:1rem;font-weight:800;padding:4px 7px;border-radius:6px;min-width:28px;text-align:center;letter-spacing:0.05em;}
+    .flash-sep{font-weight:800;color:var(--text-muted);font-size:1rem;line-height:1;}
+
+    .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeInUp .6s ease .3s both;}
+    .btn-pill{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;border-radius:var(--radius-full);font-size:0.95rem;font-weight:700;font-family:'Plus Jakarta Sans',var(--font),sans-serif;text-decoration:none;transition:var(--transition-normal);border:none;}
+    .btn-pill i{font-size:18px;}
+    .btn-pill-primary{background:var(--primary);color:white;box-shadow:0 4px 20px rgba(45,79,56,0.3);position:relative;overflow:hidden;}
+    .btn-pill-primary::after{content:'';position:absolute;inset:-2px;border-radius:inherit;background:var(--primary);filter:blur(14px);opacity:0;transition:opacity .3s ease;z-index:-1;}
+    .btn-pill-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(45,79,56,0.45);}
+    .btn-pill-primary:hover::after{opacity:0.5;}
+    .btn-pill-outline{background:rgba(255,255,255,0.6);backdrop-filter:blur(12px);color:var(--primary);border:1.5px solid var(--gray-200);}
+    .btn-pill-outline:hover{border-color:var(--primary);background:var(--primary-soft);transform:translateY(-2px);}
+
+    /* ============================================================
+       5. TILTED MARQUEE
+       ============================================================ */
+    .tilted-marquee{transform:rotate(-2deg);margin:0 -40px 48px;padding:14px 0;background:linear-gradient(90deg,#7BC754,#A3BE8C,#7BC754);overflow:hidden;box-shadow:0 4px 16px rgba(123,199,84,0.2);position:relative;z-index:2;}
+    .tilted-marquee .mq-track{display:flex;gap:32px;animation:mqScroll 22s linear infinite;white-space:nowrap;}
+    .tilted-marquee .mq-item{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:0.85rem;color:#1A2E1F;letter-spacing:0.02em;text-transform:uppercase;flex-shrink:0;}
+    .tilted-marquee .mq-item i{font-size:15px;}
+    @keyframes mqScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+    /* ============================================================
+       6. BENTO GRID
+       ============================================================ */
+    .bento-section{padding:0 0 var(--space-2xl);}
+    .bento-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:720px;margin-inline:auto;}
+
+    /* GLASSMORPHISM on all bento cards */
+    .bento-card{border-radius:20px;padding:var(--space-lg);text-decoration:none;position:relative;overflow:hidden;transition:var(--transition-normal);display:flex;flex-direction:column;}
+    .bento-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-xl);}
+
+    /* Brand cards (Fore/Kopken) */
+    .bento-brand{justify-content:flex-end;min-height:260px;color:white;}
+    .bento-fore{background:linear-gradient(160deg,rgba(45,79,56,0.92),rgba(61,107,74,0.88),rgba(74,124,85,0.85));backdrop-filter:blur(8px);}
+    .bento-kopken{background:linear-gradient(160deg,rgba(123,45,59,0.92),rgba(154,64,80,0.88),rgba(168,84,101,0.85));}
+    .bento-brand::before,.bento-brand::after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,0.07);}
+    .bento-brand::before{width:140px;height:140px;top:-30px;right:-30px;}
+    .bento-brand::after{width:110px;height:110px;bottom:-30px;left:-20px;background:rgba(255,255,255,0.04);}
+    .b-logo{width:48px;height:48px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-sm);overflow:hidden;}
+    .b-logo img{width:32px;height:32px;object-fit:contain;}
+    .bento-brand h3{font-size:1.4rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;}
+    .bento-brand .b-sub{font-size:0.82rem;opacity:0.8;margin-bottom:var(--space-sm);line-height:1.4;}
+    .b-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.2);backdrop-filter:blur(8px);padding:5px 12px;border-radius:var(--radius-full);font-size:0.75rem;font-weight:700;width:fit-content;}
+    .b-badge i{font-size:14px;}
+    .b-arrow{position:absolute;top:var(--space-md);right:var(--space-md);width:36px;height:36px;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:var(--transition-normal);}
+    .bento-card:hover .b-arrow{background:rgba(255,255,255,0.3);transform:translate(2px,-2px);}
+    .b-arrow i{font-size:18px;}
+
+    /* Small Cards — Glassmorphism */
+    .bento-sm{background:rgba(255,255,255,0.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.5);padding:var(--space-lg);min-height:140px;}
+    [data-theme="dark"] .bento-sm{background:rgba(26,46,31,0.5);border-color:rgba(255,255,255,0.06);}
+    .bento-sm h4{font-size:0.9rem;font-weight:700;color:var(--text-primary);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+    .bento-sm h4 i{font-size:1.1rem;color:var(--primary);}
+    .bento-sm p{font-size:0.78rem;color:var(--text-muted);line-height:1.5;}
+
+    /* Mood Picker */
+    .mood-grid{display:flex;gap:8px;margin-top:10px;}
+    .mood-btn{font-size:1.3rem;background:rgba(255,255,255,0.7);backdrop-filter:blur(8px);border:2px solid transparent;border-radius:14px;width:50px;height:50px;cursor:pointer;transition:transform .3s cubic-bezier(.34,1.56,.64,1),border-color .2s ease,background .2s ease,box-shadow .2s ease;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);}
+    [data-theme="dark"] .mood-btn{background:rgba(26,46,31,0.6);}
+    .mood-btn:hover{transform:scale(1.15);border-color:var(--primary);background:var(--primary-soft);color:var(--primary);box-shadow:0 4px 16px rgba(45,79,56,0.15);}
+    .mood-btn:active{transform:scale(0.92);}
+
+    /* Gacha */
+    .gacha-result{font-size:0.85rem;font-weight:700;color:var(--primary);margin-top:10px;min-height:20px;transition:var(--transition-normal);display:flex;align-items:center;gap:4px;}
+    .gacha-result i{font-size:16px;}
+    .gacha-btn{background:var(--primary);color:white;border:none;border-radius:var(--radius-full);padding:10px 20px;font-size:0.85rem;font-weight:700;font-family:'Plus Jakarta Sans',var(--font),sans-serif;cursor:pointer;transition:var(--transition-normal);margin-top:8px;display:inline-flex;align-items:center;gap:6px;}
+    .gacha-btn i{font-size:16px;}
+    .gacha-btn:hover{transform:scale(1.05);box-shadow:var(--shadow-md);}
+    .gacha-btn:active{transform:scale(0.95);}
+
+    /* Last Order */
+    .last-order-card{display:none;}
+    .last-order-card.visible{display:flex;}
+    .reorder-btn{background:var(--primary-soft);color:var(--primary);border:none;border-radius:var(--radius-full);padding:8px 16px;font-size:0.78rem;font-weight:700;font-family:var(--font);cursor:pointer;transition:var(--transition-normal);margin-top:8px;display:inline-flex;align-items:center;gap:4px;}
+    .reorder-btn i{font-size:14px;}
+    .reorder-btn:hover{background:var(--primary);color:white;}
+
+    /* Info Marquee Row */
+    .bento-marquee{grid-column:1/-1;min-height:auto;padding:0;background:rgba(255,255,255,0.5);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.4);display:flex;align-items:center;overflow:hidden;}
+    [data-theme="dark"] .bento-marquee{background:rgba(26,46,31,0.4);border-color:rgba(255,255,255,0.06);}
+    .bento-marquee:hover{transform:none;box-shadow:var(--shadow-sm);}
+    .mq-inner{display:flex;align-items:center;width:100%;overflow:hidden;padding:14px 0;}
+    .mq-inner .mq-track{display:flex;gap:40px;animation:mqScroll 28s linear infinite;white-space:nowrap;}
+    .mq-inner .mq-item{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:0.85rem;color:var(--text-secondary);flex-shrink:0;}
+    .mq-inner .mq-item i{font-size:16px;color:var(--primary);}
+
+    /* ============================================================
+       7. CARA ORDER SECTION
+       ============================================================ */
+    .cara-order-section{padding:0 0 var(--space-2xl);overflow:visible;}
+    .cara-order-section .container{max-width:720px;}
+    .cara-order-title{font-size:1.1rem;font-weight:800;color:var(--text-primary);margin-bottom:var(--space-md);text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .cara-order-title i{font-size:1.2rem;color:var(--primary);}
+    .steps-track{display:flex;gap:0;align-items:stretch;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px;scrollbar-width:none;}
+    .steps-track::-webkit-scrollbar{display:none;}
+    .step-card{flex:0 0 auto;width:145px;scroll-snap-align:start;background:rgba(255,255,255,0.65);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.5);border-radius:18px;padding:20px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;transition:var(--transition-normal);}
+    [data-theme="dark"] .step-card{background:rgba(26,46,31,0.45);border-color:rgba(255,255,255,0.06);}
+    .step-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+    .step-num{font-size:0.65rem;font-weight:800;color:var(--primary);background:var(--primary-soft);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+    .step-icon{width:44px;height:44px;background:var(--primary-soft);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--primary);}
+    .step-label{font-size:0.78rem;font-weight:700;color:var(--text-primary);line-height:1.3;}
+    .step-arrow{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:32px;color:var(--text-muted);font-size:18px;}
+
+    /* ============================================================
+       8. ABOUT & FOOTER
+       ============================================================ */
+    .about-mini{background:rgba(255,255,255,0.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.4);border-radius:20px;padding:var(--space-xl);max-width:720px;margin:0 auto var(--space-2xl);text-align:center;}
+    [data-theme="dark"] .about-mini{background:rgba(26,46,31,0.4);border-color:rgba(255,255,255,0.06);}
+    .about-mini h3{font-size:1.3rem;font-weight:800;color:var(--text-primary);margin-bottom:var(--space-sm);display:flex;align-items:center;justify-content:center;gap:8px;}
+    .about-mini h3 i{font-size:1.4rem;color:var(--primary);}
+    .about-mini p{color:var(--text-secondary);line-height:1.7;font-size:0.95rem;}
+
+    .footer-home{padding:var(--space-lg) 0;border-top:1px solid var(--gray-100);text-align:center;}
+    .fh-inner{max-width:720px;margin-inline:auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-sm);}
+    .fh-brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:0.95rem;color:var(--primary);}
+    .fh-brand img{width:28px;height:28px;border-radius:8px;}
+    .fh-links{display:flex;gap:8px;}
+    .fh-links a{width:36px;height:36px;border-radius:50%;background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);text-decoration:none;transition:var(--transition-normal);font-size:1rem;}
+    .fh-links a:hover{background:var(--primary);color:white;transform:translateY(-2px);}
+    .fh-copy{width:100%;font-size:0.75rem;color:var(--text-muted);margin-top:var(--space-xs);}
+
+    /* ============================================================
+       9. LIVE TOAST — TOP CENTER (slide-down)
+       ============================================================ */
+    .live-toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-120%);background:rgba(255,255,255,0.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--gray-100);border-radius:var(--radius-full);padding:10px 20px;box-shadow:var(--shadow-lg);z-index:1050;display:flex;align-items:center;gap:10px;transition:transform .5s cubic-bezier(.4,0,.2,1);max-width:360px;white-space:nowrap;}
+    .live-toast.show{transform:translateX(-50%) translateY(0);}
+    [data-theme="dark"] .live-toast{background:rgba(26,46,31,0.92);border-color:rgba(255,255,255,0.06);}
+    .toast-dot{width:8px;height:8px;background:#22C55E;border-radius:50%;animation:pulse 2s ease infinite;flex-shrink:0;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(0.8);}}
+    .toast-text{font-size:0.8rem;color:var(--text-primary);line-height:1.4;}
+    .toast-text strong{color:var(--primary);}
+
+    /* ============================================================
+       10. SCROLL PROGRESS BAR
+       ============================================================ */
+    .scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#7BC754,#A3BE8C);z-index:99990;width:0;transition:width .1s linear;pointer-events:none;border-radius:0 2px 2px 0;}
+
+    /* ============================================================
+       11. SOCIAL PROOF PILL
+       ============================================================ */
+    .social-proof{display:inline-flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;background:rgba(255,255,255,0.65);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.45);border-radius:var(--radius-full);animation:fadeInUp .6s ease .35s both;margin-top:var(--space-md);}
+    [data-theme="dark"] .social-proof{background:rgba(26,46,31,0.5);border-color:rgba(255,255,255,0.08);}
+    .sp-avatars{display:flex;}
+    .sp-avatars span{width:28px;height:28px;border-radius:50%;border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:white;margin-left:-8px;}
+    .sp-avatars span:first-child{margin-left:0;}
+    .sp-avatars span:nth-child(1){background:#2D4F38;}
+    .sp-avatars span:nth-child(2){background:#7BC754;}
+    .sp-avatars span:nth-child(3){background:#A3BE8C;}
+    .sp-text{font-size:0.78rem;font-weight:600;color:var(--text-secondary);}
+    .sp-text strong{color:var(--primary);font-weight:800;}
+
+    /* ============================================================
+       12. SKELETON SHIMMER (Brand card images)
+       ============================================================ */
+    .b-logo img{background:linear-gradient(90deg,rgba(255,255,255,0.1) 25%,rgba(255,255,255,0.25) 50%,rgba(255,255,255,0.1) 75%);background-size:200% 100%;animation:shimmer 1.5s ease infinite;}
+    .b-logo img.loaded{animation:none;background:transparent;}
+    @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+    /* ============================================================
+       ANIMATIONS
+       ============================================================ */
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes gradientMove{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+    /* ============================================================
+       SNAPPY MICRO-INTERACTIONS
+       ============================================================ */
+    .btn-pill:active,.bento-card:active,.mood-btn:active,.gacha-btn:active,.reorder-btn:active,.step-card:active,.fh-links a:active{transform:scale(0.96) !important;}
+
+    /* ============================================================
+       TYPOGRAPHY POLISH
+       ============================================================ */
+    h1,h2,h3,.bento-brand h3,.cara-order-title,.about-mini h3{letter-spacing:-0.02em;}
+
+    /* ============================================================
+       FLOATING BOTTOM DOCK (Mobile)
+       ============================================================ */
+    .bottom-dock{display:none;}
+    .mobile-theme-btn{display:none !important;}
+    @media(max-width:768px){
+      .navbar .nav-links,.navbar .mobile-menu-btn{display:none !important;}
+      .mobile-theme-btn{display:inline-flex !important;}
+      .navbar .container{justify-content:space-between;}
+      .bottom-dock{display:flex;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:1100;background:rgba(255,255,255,0.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.5);border-radius:999px;padding:8px 6px;gap:0;box-shadow:0 8px 32px rgba(0,0,0,0.12);width:auto;min-width:200px;justify-content:center;}
+      [data-theme="dark"] .bottom-dock{background:rgba(26,46,31,0.75);border-color:rgba(255,255,255,0.08);}
+      .dock-item{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--text-secondary);padding:8px 20px;border-radius:999px;transition:background .2s ease,color .2s ease;font-size:0.68rem;font-weight:600;position:relative;}
+      .dock-item i{font-size:20px;}
+      .dock-item:active{transform:scale(0.92);}
+      .dock-item.active,.dock-item:hover{color:var(--primary);background:var(--primary-soft);}
+      .dock-badge{position:absolute;top:2px;right:10px;background:#EF4444;color:white;font-size:0.55rem;font-weight:800;min-width:16px;height:16px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1;}
+      .dock-badge:empty{display:none;}
+      body{padding-bottom:120px;}
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media(max-width:640px){
+      .hero-home{padding:80px 0 16px;}
+      .hero-home h1{font-size:2rem;}
+      .btn-pill{padding:12px 22px;font-size:0.88rem;}
+      .bento-grid{gap:10px;}
+      .bento-brand{min-height:200px;padding:var(--space-md);}
+      .bento-brand h3{font-size:1.15rem;}
+      .bento-sm{padding:var(--space-md);}
+      .mood-btn{width:44px;height:44px;font-size:1.2rem;}
+      .tilted-marquee{margin:0 -20px 36px;}
+      .step-card{width:130px;padding:16px 12px;}
+      .live-toast{left:12px;right:12px;top:70px;max-width:none;white-space:normal;border-radius:14px;}
+      .fh-inner{justify-content:center;text-align:center;}
+      .fh-brand,.fh-links{width:100%;justify-content:center;}
+      .flash-digits{gap:3px;}
+      .flash-box{font-size:0.85rem;padding:3px 5px;min-width:24px;}
+      .social-proof{margin-top:var(--space-sm);}
+      .sp-text{font-size:0.72rem;}
+    }
+  </style>
+</head>
+<body>
+  <!-- PRELOADER -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-icon"><img src="images/nata-logo.png" alt="Nata"></div>
+    <div class="preloader-text">Seduh Kopi<span>.</span><span>.</span><span>.</span></div>
+  </div>
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+
+  <!-- BACKGROUND LAYERS -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <div class="bg-mesh" aria-hidden="true">
+    <div class="mesh-blob"></div>
+    <div class="mesh-blob"></div>
+    <div class="mesh-blob"></div>
+    <div class="mesh-blob"></div>
+  </div>
+
+  <!-- Navbar (Top bar: branding + theme toggle on mobile, full nav on desktop) -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo"><img src="images/nata-logo.png" alt="Nata Coffee" class="logo-img"><span>Nata Coffee</span></a>
+      <ul class="nav-links">
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#cara-order">Cara Order</a></li>
+        <li><a href="#about">Tentang</a></li>
+        <li><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode"><i class="ri-sun-line icon-sun"></i><i class="ri-moon-line icon-moon"></i></button></li>
+      </ul>
+      <!-- Mobile: only show theme toggle -->
+      <button class="theme-toggle mobile-theme-btn" onclick="toggleTheme()" aria-label="Toggle dark mode"><i class="ri-sun-line icon-sun"></i><i class="ri-moon-line icon-moon"></i></button>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero-home">
+    <div class="container">
+      <p class="greeting-text" id="greetingText"></p>
+
+      <!-- Floating Total Hemat Badge -->
+      <div class="hemat-badge">
+        <i class="ri-shield-check-line"></i>
+        <span class="hemat-num" id="hematNum">Rp 150.000+</span> Diamankan
+      </div>
+
+      <h1>Ngopi Sultan,<br>Harga <em>Teman</em>.</h1>
+      <p class="hero-sub">Jasdor Kopi: Diskon <strong>50%</strong> Tiap Hari.<br>Tinggal pilih, kami yang urus!</p>
+
+      <!-- Flash Sale Countdown (Retro Digital) -->
+      <div class="flash-countdown">
+        <span class="flash-label"><i class="ri-fire-fill"></i> Order ditutup dalam</span>
+        <div class="flash-digits">
+          <span class="flash-box" id="cdH">00</span>
+          <span class="flash-sep">:</span>
+          <span class="flash-box" id="cdM">00</span>
+          <span class="flash-sep">:</span>
+          <span class="flash-box" id="cdS">00</span>
+        </div>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#menu" class="btn-pill btn-pill-primary"><i class="ri-book-open-line"></i>Pesan Sekarang</a>
+        <a href="https://wa.me/6283114254268?text=Halo%20Nata%20Coffee!" class="btn-pill btn-pill-outline" target="_blank"><i class="ri-whatsapp-line"></i>WhatsApp</a>
+      </div>
+
+      <!-- Social Proof Pill -->
+      <div class="social-proof">
+        <div class="sp-avatars">
+          <span>B</span><span>A</span><span>M</span>
+        </div>
+        <span class="sp-text">Dipercaya <strong>500+</strong> Sobat Kopi</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TILTED MARQUEE -->
+  <div class="tilted-marquee">
+    <div class="mq-track">
+      <span class="mq-item"><i class="ri-flashlight-fill"></i> DISKON 50%</span>
+      <span class="mq-item"><i class="ri-flashlight-fill"></i> JASDOR KOPI</span>
+      <span class="mq-item"><i class="ri-flashlight-fill"></i> PROMO SETIAP HARI</span>
+      <span class="mq-item"><i class="ri-flashlight-fill"></i> PENGIRIMAN CEPAT</span>
+      <span class="mq-item"><i class="ri-flashlight-fill"></i> AREA DENPASAR & BADUNG</span>
+      <span class="mq-item"><i class="ri-flashlight-fill"></i> DISKON 50%</span>
+      <span class="mq-item"><i class="ri-flashlight-fill"></i> JASDOR KOPI</span>
+      <span class="mq-item"><i class="ri-flashlight-fill"></i> PROMO SETIAP HARI</span>
+      <span class="mq-item"><i class="ri-flashlight-fill"></i> PENGIRIMAN CEPAT</span>
+      <span class="mq-item"><i class="ri-flashlight-fill"></i> AREA DENPASAR & BADUNG</span>
+    </div>
+  </div>
+
+  <!-- BENTO GRID -->
+  <section class="bento-section" id="menu">
+    <div class="container">
+      <div class="bento-grid">
+        <!-- Fore Coffee -->
+        <a href="fore.html" class="bento-card bento-brand bento-fore fade-in-up" data-tilt>
+          <div class="b-arrow"><i class="ri-arrow-right-up-line"></i></div>
+          <div class="b-logo"><img src="images/fore.webp" alt="Fore Coffee"></div>
+          <h3>Fore Coffee</h3>
+          <p class="b-sub">Aren Latte, Matcha, Americano & lainnya</p>
+          <span class="b-badge"><i class="ri-percent-line"></i> Diskon 50%</span>
+        </a>
+        <!-- Kopi Kenangan -->
+        <a href="kopken.html" class="bento-card bento-brand bento-kopken fade-in-up" data-tilt>
+          <div class="b-arrow"><i class="ri-arrow-right-up-line"></i></div>
+          <div class="b-logo"><img src="images/kopikenangan.png" alt="Kopi Kenangan"></div>
+          <h3>Kopi Kenangan</h3>
+          <p class="b-sub">Kenangan Mantan, Es Kopi Susu & lainnya</p>
+          <span class="b-badge"><i class="ri-heart-3-line"></i> Promo Mantan</span>
+        </a>
+        <!-- Mood Picker -->
+        <div class="bento-card bento-sm fade-in-up">
+          <h4><i class="ri-emotion-line"></i> Lagi Mood Apa?</h4>
+          <p>Pilih mood, kami rekomendasiin kopi-nya!</p>
+          <div class="mood-grid">
+            <button class="mood-btn" onclick="pickMood('happy')" title="Senang"><i class="ri-emotion-happy-line"></i></button>
+            <button class="mood-btn" onclick="pickMood('sleepy')" title="Ngantuk"><i class="ri-zzz-line"></i></button>
+            <button class="mood-btn" onclick="pickMood('stress')" title="Stress"><i class="ri-mental-health-line"></i></button>
+            <button class="mood-btn" onclick="pickMood('confused')" title="Bingung"><i class="ri-question-line"></i></button>
+          </div>
+        </div>
+        <!-- Gacha Kopi -->
+        <div class="bento-card bento-sm fade-in-up">
+          <h4><i class="ri-dice-line"></i> Bingung?</h4>
+          <p>Random menu buat kamu hari ini!</p>
+          <button class="gacha-btn" onclick="gachaKopi()"><i class="ri-shuffle-line"></i> Putar Gacha</button>
+          <div class="gacha-result" id="gachaResult"></div>
+        </div>
+        <!-- Last Order -->
+        <div class="bento-card bento-sm last-order-card fade-in-up" id="lastOrderCard">
+          <h4><i class="ri-refresh-line"></i> Order Lagi?</h4>
+          <p id="lastOrderText">Menu terakhirmu</p>
+          <button class="reorder-btn" id="reorderBtn"><i class="ri-arrow-right-line"></i> Pesan Lagi</button>
+        </div>
+        <!-- Info Marquee Row -->
+        <div class="bento-card bento-marquee fade-in-up">
+          <div class="mq-inner"><div class="mq-track">
+            <span class="mq-item"><i class="ri-verified-badge-line"></i>Trusted</span>
+            <span class="mq-item"><i class="ri-flashlight-line"></i>Cepat</span>
+            <span class="mq-item"><i class="ri-wallet-3-line"></i>Hemat 50%</span>
+            <span class="mq-item"><i class="ri-truck-line"></i>Pickup & Delivery</span>
+            <span class="mq-item"><i class="ri-time-line"></i>08:00–21:00</span>
+            <span class="mq-item"><i class="ri-star-line"></i>500+ Happy</span>
+            <span class="mq-item"><i class="ri-verified-badge-line"></i>Trusted</span>
+            <span class="mq-item"><i class="ri-flashlight-line"></i>Cepat</span>
+            <span class="mq-item"><i class="ri-wallet-3-line"></i>Hemat 50%</span>
+            <span class="mq-item"><i class="ri-truck-line"></i>Pickup & Delivery</span>
+            <span class="mq-item"><i class="ri-time-line"></i>08:00–21:00</span>
+            <span class="mq-item"><i class="ri-star-line"></i>500+ Happy</span>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARA ORDER SECTION -->
+  <section class="cara-order-section" id="cara-order">
+    <div class="container">
+      <h3 class="cara-order-title fade-in-up"><i class="ri-route-line"></i> Cara Order</h3>
+      <div class="steps-track fade-in-up">
+        <div class="step-card">
+          <span class="step-num">1</span>
+          <div class="step-icon"><i class="ri-book-open-line"></i></div>
+          <span class="step-label">Pilih Menu</span>
+        </div>
+        <div class="step-arrow"><i class="ri-arrow-right-s-line"></i></div>
+        <div class="step-card">
+          <span class="step-num">2</span>
+          <div class="step-icon"><i class="ri-shopping-bag-3-line"></i></div>
+          <span class="step-label">Masuk Keranjang</span>
+        </div>
+        <div class="step-arrow"><i class="ri-arrow-right-s-line"></i></div>
+        <div class="step-card">
+          <span class="step-num">3</span>
+          <div class="step-icon"><i class="ri-whatsapp-line"></i></div>
+          <span class="step-label">Checkout WA</span>
+        </div>
+        <div class="step-arrow"><i class="ri-arrow-right-s-line"></i></div>
+        <div class="step-card">
+          <span class="step-num">4</span>
+          <div class="step-icon"><i class="ri-time-line"></i></div>
+          <span class="step-label">Bayar & Tunggu</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about"><div class="container">
+    <div class="about-mini fade-in-up">
+      <h3><i class="ri-cup-line"></i> Tentang Nata Coffee</h3>
+      <p>Kami adalah <strong>Jasdor Kopi</strong> yang bantu kamu dapetin kopi favorit dari Fore Coffee dan Kopi Kenangan dengan harga lebih hemat sampai 50%. Pesan via WhatsApp, kami yang urus!</p>
+    </div>
+  </div></section>
+
+  <!-- Footer -->
+  <footer class="footer-home" id="kontak"><div class="container"><div class="fh-inner">
+    <div class="fh-brand"><img src="images/nata-logo.png" alt="Nata Coffee"><span>Nata Coffee</span></div>
+    <div class="fh-links">
+      <a href="https://instagram.com/ndrenathaa_" target="_blank" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+      <a href="https://wa.me/6283114254268" target="_blank" aria-label="WhatsApp"><i class="ri-whatsapp-line"></i></a>
+    </div>
+    <p class="fh-copy">&copy; 2026 Nata Coffee &middot; Jasdor Kopi Terpercaya di Bali</p>
+  </div></div></footer>
+
+  <!-- LIVE TOAST -->
+  <div class="live-toast" id="liveToast"><div class="toast-dot"></div><div class="toast-text" id="toastText"></div></div>
+
+  <!-- FLOATING BOTTOM DOCK (Mobile) -->
+  <nav class="bottom-dock" id="bottomDock">
+    <a href="index.html" class="dock-item active"><i class="ri-home-5-line"></i><span>Home</span></a>
+    <a href="#menu" class="dock-item"><i class="ri-cup-line"></i><span>Menu</span></a>
+    <a href="#" class="dock-item" onclick="event.preventDefault();if(typeof openCartSummary==='function')openCartSummary();"><i class="ri-shopping-bag-3-line"></i><span>Cart</span><span class="dock-badge" id="dockBadge"></span></a>
+  </nav>
+
+  <script>
+    /* ===== PRELOADER ===== */
+    window.addEventListener('load',()=>{setTimeout(()=>{document.getElementById('preloader').classList.add('hide');},1500);});
+
+    /* ===== DOCK BADGE (sync cart count) ===== */
+    (function(){
+      const badge=document.getElementById('dockBadge');
+      if(!badge) return;
+      function sync(){try{const c=JSON.parse(localStorage.getItem('nataCart')||'[]');badge.textContent=c.length||'';}catch(e){badge.textContent='';}}
+      sync();window.addEventListener('storage',sync);setInterval(sync,2000);
+    })();
+
+    /* ===== GREETING ===== */
+    (function(){
+      const h=new Date().getHours();
+      let icon='',text='';
+      if(h>=5&&h<11){icon='ri-sun-line';text='Selamat Pagi! Butuh kafein panas?';}
+      else if(h>=11&&h<15){icon='ri-sun-cloudy-line';text='Siang! Dinginin harimu dengan es kopi.';}
+      else if(h>=15&&h<18){icon='ri-sun-foggy-line';text='Sore! Waktunya ngopi santai.';}
+      else{icon='ri-moon-clear-line';text='Malam! Kopi susu buat teman begadang?';}
+      document.getElementById('greetingText').innerHTML='<i class="'+icon+'"></i> '+text;
+    })();
+
+    /* ===== TOTAL HEMAT — read localStorage ===== */
+    (function(){try{const s=localStorage.getItem('nataSavings');if(s)document.getElementById('hematNum').textContent='Rp '+parseInt(s).toLocaleString('id-ID');}catch(e){}})();
+
+    /* ===== FLASH SALE COUNTDOWN ===== */
+    function updateCountdown(){
+      const now=new Date();const end=new Date();end.setHours(21,0,0,0);
+      if(now>end)end.setDate(end.getDate()+1);
+      const d=end-now;
+      const hh=Math.floor(d/36e5),mm=Math.floor((d%36e5)/6e4),ss=Math.floor((d%6e4)/1e3);
+      document.getElementById('cdH').textContent=hh.toString().padStart(2,'0');
+      document.getElementById('cdM').textContent=mm.toString().padStart(2,'0');
+      document.getElementById('cdS').textContent=ss.toString().padStart(2,'0');
+    }
+    setInterval(updateCountdown,1000);updateCountdown();
+
+    /* ===== MOOD PICKER ===== */
+    function pickMood(m){
+      const rec={
+        'happy':'Aren Latte biar makin semangat!',
+        'sleepy':'Americano Double Shot biar melek!',
+        'stress':'Matcha Latte, tarik nafas dulu~',
+        'confused':'Cobain Gacha Kopi di sebelah!'
+      };
+      alert(rec[m]||'Cobain Kopi Dari Tani!');
+    }
+
+    /* ===== GACHA KOPI ===== */
+    function gachaKopi(){
+      const menus=['Aren Latte','Kopi Dari Tani','Butterscotch Sea Salt','Matcha Latte','Kenangan Mantan','Es Kopi Susu Tetangga','Caramel Macchiato','Americano','Avocado Milk','Hazelnut Latte'];
+      const el=document.getElementById('gachaResult');
+      el.innerHTML='<i class="ri-loader-4-line ri-spin"></i> Rolling...';
+      let i=0;
+      const spin=setInterval(()=>{
+        el.innerHTML='<i class="ri-dice-line"></i> '+menus[Math.floor(Math.random()*menus.length)];
+        if(++i>10){clearInterval(spin);
+          el.innerHTML='<i class="ri-sparkling-2-fill"></i> Takdirmu: '+menus[Math.floor(Math.random()*menus.length)]+'!';
+        }
+      },100);
+    }
+
+    /* ===== LAST ORDER ===== */
+    (function(){try{const lo=localStorage.getItem('nataLastOrder');if(lo){const d=JSON.parse(lo);document.getElementById('lastOrderCard').classList.add('visible');document.getElementById('lastOrderText').textContent=d.name||'Menu terakhirmu';document.getElementById('reorderBtn').onclick=()=>window.location.href=d.link||'fore.html';}}catch(e){}})();
+
+    /* ===== LIVE TOAST ===== */
+    (function(){
+      const names=['Budi','Ayu','Made','Kadek','Wayan','Putu','Komang','Dewi','Gede','Luh'];
+      const items=['Kopi Kenangan Mantan','Aren Latte','Americano','Matcha Latte','Es Kopi Susu','Butterscotch Latte','Caramel Macchiato','Kopi Dari Tani'];
+      const toast=document.getElementById('liveToast'),text=document.getElementById('toastText');
+      function show(){const n=names[Math.floor(Math.random()*names.length)],it=items[Math.floor(Math.random()*items.length)];text.innerHTML='<strong>'+n+'</strong> baru saja pesan <strong>'+it+'</strong>';toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),4000);}
+      setTimeout(show,4000);setInterval(show,9000);
+    })();
+
+    /* ===== 3D TILT (Vanilla JS — no library needed) ===== */
+    document.querySelectorAll('[data-tilt]').forEach(card=>{
+      card.addEventListener('mousemove',e=>{
+        const rect=card.getBoundingClientRect();
+        const x=(e.clientX-rect.left)/rect.width-.5;
+        const y=(e.clientY-rect.top)/rect.height-.5;
+        card.style.transform=`perspective(800px) rotateY(${x*12}deg) rotateX(${-y*12}deg) translateY(-5px)`;
+      });
+      card.addEventListener('mouseleave',()=>{card.style.transform='';});
+    });
+
+    /* ===== THEME ===== */
+    function toggleTheme(){const h=document.documentElement,c=h.getAttribute('data-theme'),n=c==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);}
+    const savedTheme=localStorage.getItem('theme')||'light';
+    document.documentElement.setAttribute('data-theme',savedTheme);
+
+    /* ===== MOBILE MENU ===== */
+    function toggleMobileMenu(){document.querySelector('.nav-links').classList.toggle('mobile-open');}
+
+    /* ===== INTERSECTION OBSERVER (staggered fade-in) ===== */
+    document.addEventListener('DOMContentLoaded',function(){
+      const els=document.querySelectorAll('.fade-in-up');
+      if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('visible'));return;}
+      let delay=0;
+      const obs=new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){setTimeout(()=>entry.target.classList.add('visible'),delay);delay+=80;obs.unobserve(entry.target);}
+        });
+      },{threshold:0.1,rootMargin:'0px 0px -30px 0px'});
+      els.forEach((el,i)=>{const r=el.getBoundingClientRect();if(r.top<window.innerHeight&&r.bottom>0){setTimeout(()=>el.classList.add('visible'),i*80);}else{obs.observe(el);}});
+    });
+
+    /* ===== NAVBAR SCROLL + SCROLL PROGRESS BAR ===== */
+    (function(){
+      const bar=document.getElementById('scrollProgress');
+      const nav=document.querySelector('.navbar');
+      window.addEventListener('scroll',()=>{
+        nav.classList.toggle('scrolled',window.scrollY>50);
+        const h=document.documentElement.scrollHeight-window.innerHeight;
+        if(bar&&h>0)bar.style.width=(window.scrollY/h*100)+'%';
+      });
+    })();
+
+    /* ===== SKELETON SHIMMER — mark images as loaded ===== */
+    document.querySelectorAll('.b-logo img').forEach(img=>{
+      if(img.complete){img.classList.add('loaded');}
+      else{img.addEventListener('load',()=>img.classList.add('loaded'));}
+    });
+
+    /* ===== SERVICE WORKER ===== */
+    if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/coffee/sw.js').catch(()=>{});});}
+  </script>
+</body>
+</html>

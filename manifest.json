@@ -1,0 +1,25 @@
+{
+  "name": "Nata Coffee",
+  "short_name": "Nata Coffee",
+  "description": "Jasdor Kopi (Jasa Order) Fore Coffee & Kopi Kenangan dengan harga hemat sampai 50%!",
+  "start_url": "/coffee/index.html",
+  "display": "standalone",
+  "background_color": "#E8F5E9",
+  "theme_color": "#7BAE7F",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "images/nata-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "images/nata-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "shopping"]
+}
